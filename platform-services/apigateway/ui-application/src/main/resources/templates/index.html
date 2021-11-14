@@ -1,0 +1,28 @@
+<html>
+<body ng-app="myApp" ng-controller="mainCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.8.2/angular-resource.min.js"
+        integrity="sha512-heHqDjSgQ/iDnrNQqj9WFFYIS9nKYnWwb3VndZOvW1riVCWN9gsr98JEptFqmBl8Ru+3ubuGcHCYe2RJnA2PnA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    var app = angular.module('myApp', ["ngResource"]);
+
+    app.controller('mainCtrl', function ($scope, $resource, $http) {
+        $scope.foo = {id: 0, name: "sample foo"};
+        $scope.foos = $resource("/foos/:fooId", {fooId: '@id'});
+
+        $scope.getFoo = function () {
+            $scope.foo = $scope.foos.get({fooId: $scope.foo.id});
+        }
+    });
+</script>
+
+<div>
+    <h1>Foo Details</h1>
+    <span>{{foo.id}}</span>
+    <span>{{foo.name}}</span>
+    <a href="#" ng-click="getFoo()">New Foo</a>
+</div>
+</body>
+</html>
