@@ -1,0 +1,15 @@
+version: "3"
+services:
+  commmon-service:
+    container_name: commmon-service
+    build:
+      context: ../business-services/common/target/
+      args:
+        - JAR_NAME_TO_RUN=common-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=test_group
+        - LABEL_ID=test_id
+        - LABEL_DESCRIPTION=test_description
+        - PORT_TO_EXPOSE=8085
+    image: commmon-server:latest
+    ports:
+      - "8085:8085"

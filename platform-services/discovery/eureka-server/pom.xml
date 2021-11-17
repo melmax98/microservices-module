@@ -59,7 +59,7 @@
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/docker/</directory>
-                                    <targetPath>${project.build.directory}/docker</targetPath>
+                                    <targetPath>${project.build.directory}</targetPath>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>

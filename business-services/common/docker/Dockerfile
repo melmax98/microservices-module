@@ -1,12 +1,18 @@
-FROM java:8-jre-alpine
+FROM openjdk:8-jdk-alpine
+
+ARG JAR_NAME_TO_RUN
+ARG LABEL_GROUP
+ARG LABEL_ID
+ARG LABEL_DESCRIPTION
+ARG PORT_TO_EXPOSE
 
 VOLUME /tmp
 
 LABEL ${LABEL_GROUP}="${LABEL_ID}"
 LABEL description="${LABEL_DESCRIPTION}"
 
-COPY ${JAR_NAME_TO_RUN} /${JAR_NAME_TO_RUN}
+COPY ${JAR_NAME_TO_RUN} /app.jar
 
 EXPOSE ${PORT_TO_EXPOSE}
 
-ENTRYPOINT ["java", "-jar", "/${JAR_NAME_TO_RUN}"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
