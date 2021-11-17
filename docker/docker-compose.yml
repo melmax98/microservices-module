@@ -6,10 +6,38 @@ services:
       context: ../business-services/common/target/
       args:
         - JAR_NAME_TO_RUN=common-0.0.1-SNAPSHOT-spring-boot.jar
-        - LABEL_GROUP=test_group
-        - LABEL_ID=test_id
-        - LABEL_DESCRIPTION=test_description
+        - LABEL_GROUP=configuration-server
+        - LABEL_ID=config
+        - LABEL_DESCRIPTION=this is configuration server
         - PORT_TO_EXPOSE=8085
-    image: commmon-server:latest
+    image: config-server:latest
     ports:
       - "8085:8085"
+
+  api:
+    container_name: api
+    build:
+      context: ../platform-services/apigateway/api/target
+      args:
+        - JAR_NAME_TO_RUN=api-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=proxy
+        - LABEL_ID=zuul
+        - LABEL_DESCRIPTION=this application uses zuul proxy
+        - PORT_TO_EXPOSE=8081
+    image: api:latest
+    ports:
+      - "8081:8081"
+
+  ui-application:
+    container_name: ui-zuul
+    build:
+      context: ../platform-services/apigateway/ui-application/target
+      args:
+        - JAR_NAME_TO_RUN=ui-application-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=proxy
+        - LABEL_ID=ui-zool
+        - LABEL_DESCRIPTION=ui for with using zuul proxy
+        - PORT_TO_EXPOSE=8080
+    image: ui:latest
+    ports:
+      - "8080:8080"
