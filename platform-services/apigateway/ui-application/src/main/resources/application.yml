@@ -2,6 +2,7 @@ zuul:
   routes:
     foos:
       path: /foos/**
-      url: http://localhost:8081/foos
+      url: http://api:8081/foos
+      #url: http://localhost:8081/foos - for local
 server:
   port: 8080

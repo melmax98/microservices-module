@@ -41,3 +41,49 @@ services:
     image: ui:latest
     ports:
       - "8080:8080"
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ../platform-services/discovery/eureka-server/target
+      args:
+        - JAR_NAME_TO_RUN=eureka-server-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=server
+        - LABEL_ID=eureka
+        - LABEL_DESCRIPTION=eureka server
+        - PORT_TO_EXPOSE=8080
+    image: eureka-server:latest
+    ports:
+      - "8761:8761"
+
+  eureka-client:
+    container_name: eureka-client
+    build:
+      context: ../platform-services/discovery/eureka-client/target
+      args:
+        - JAR_NAME_TO_RUN=eureka-client-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=client
+        - LABEL_ID=eureka
+        - LABEL_DESCRIPTION=eureka client
+        - PORT_TO_EXPOSE=8090
+    image: eureka-client:latest
+    ports:
+      - "8090:8090"
+    depends_on:
+      - eureka-server
+
+  feign-client:
+    container_name: feign-client
+    build:
+      context: ../platform-services/discovery/feign-client/target
+      args:
+        - JAR_NAME_TO_RUN=feign-client-0.0.1-SNAPSHOT-spring-boot.jar
+        - LABEL_GROUP=client
+        - LABEL_ID=eureka
+        - LABEL_DESCRIPTION=eureka client
+        - PORT_TO_EXPOSE=8090
+    image: feign-client:latest
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
